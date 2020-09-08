@@ -1,20 +1,16 @@
 import pandas as pd
 from tkinter import *
 from PIL import ImageTk, Image
-import sqlite3
 import os
 
 root = Tk()
 root.title('skyrim pricing')
-root.geometry('250x500')
+root.geometry('300x550')
 
-sb = Scrollbar(root).pack(side = RIGHT, fill = Y)
-mylist=Listbox(root, yscrollcommand = sb.set)
-for line in range(100):
-  mylist.insert(END, "this is line")
+can = Canvas(root, width=300, height=550, background='white')
+can.pack()
 
-mylist.pack(side=LEFT, fill = BOTH)
-sb.config(command = mylist.yview)
+
 
 # to prevent truncating the rows for large data set, set max_rows to None
 pd.set_option('display.max_rows', None)
@@ -32,6 +28,6 @@ concat = pd.concat([a1, a2], ignore_index=True)
 #label2 = Label(root, text=a2).grid(row=0, column=1)
 
 # displaying the concat csv
-labelc = Label(root, text=concat).pack()
+# labelc = Label(root, text=concat).pack()
 
 root.mainloop()
