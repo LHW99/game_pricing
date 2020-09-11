@@ -52,9 +52,10 @@ concat = pd.concat([a1, a2], ignore_index=True)
 labelc = Label(fra2, text=concat).grid()
 
 # writing a new csv file
-with open('new.csv', 'w', newline='') as file:
-  writer = csv.writer(file)
-  for line in concat:
-    writer.writerows(line)
+# 'w' means to write; newline='' is 
+# with open('new.csv', 'w', newline='') as file:
+
+# to_csv function
+concat.to_csv('new.csv', index=False, encoding='utf-8-sig')
 
 root.mainloop()
