@@ -2,6 +2,7 @@ import pandas as pd
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+import csv
 
 
 root = Tk()
@@ -49,5 +50,11 @@ concat = pd.concat([a1, a2], ignore_index=True)
 
 # displaying the concat csv
 labelc = Label(fra2, text=concat).grid()
+
+# writing a new csv file
+with open('new.csv', 'w', newline='') as file:
+  writer = csv.writer(file)
+  for line in concat:
+    writer.writerows(line)
 
 root.mainloop()
