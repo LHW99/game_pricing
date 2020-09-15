@@ -41,10 +41,20 @@ plt.show()
 """
 
 # trying pandas/numpy
-df = pd.read_csv('new.csv', header=0,parse_dates=True,infer_datetime_format=True)
+# skyrim price history
+"""
+df = pd.read_csv('new.csv',header=0,parse_dates=True,infer_datetime_format=True)
 print (df)
+"""
 
-df.plot()
-plt.title('title')
-#plt.xticks(xValues)
+df1 = pd.read_csv('price-history-for-489830.csv', header=0, parse_dates=True,infer_datetime_format=True)
+df2 = pd.read_csv('price-history-for-72850.csv', header=0, parse_dates=True,infer_datetime_format=True)
+
+ff = plt.figure(figsize=(30,10))
+fig, axes = plt.subplots()
+
+df1.plot(ax=axes[0,0])
+df2.plot(ax=axes[0,1])
+
+plt.title('Skyrim Pricing')
 plt.show()
