@@ -41,11 +41,10 @@ plt.show()
 """
 
 # trying pandas/numpy
-headers = ['DateTime', 'Final price']
-df = pd.read_csv('new.csv', parse_dates = {"Datetime" : [1,2]}, names=headers)
+df = pd.read_csv('new.csv', header=0,parse_dates=True,infer_datetime_format=True)
 print (df)
 
-df.plot(x='DateTime', y='Final price')
+df.plot()
 plt.title('title')
-plt.xticks(xValues)
+#plt.xticks(xValues)
 plt.show()
