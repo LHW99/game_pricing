@@ -5,6 +5,7 @@ import csv
 # import matplotlib to graph
 import matplotlib.pyplot as plt
 from numpy import *
+from glob import glob
 
 root = Tk()
 root.title("line chart")
@@ -47,14 +48,29 @@ df = pd.read_csv('new.csv',header=0,parse_dates=True,infer_datetime_format=True)
 print (df)
 """
 
-df1 = pd.read_csv('price-history-for-489830.csv', header=0, parse_dates=True,infer_datetime_format=True)
-df2 = pd.read_csv('price-history-for-72850.csv', header=0, parse_dates=True,infer_datetime_format=True)
-
+"""
 ff = plt.figure(figsize=(30,10))
-fig, axes = plt.subplots()
+subplots(1 row, 1 column); how many subplots will be in the figure (f)
+f, axes = plt.subplots(1, 1)
+ax10 = ff.add_subplot()
+ax10.plot(df1)
+ax10.plot(df2)
+"""
 
-df1.plot(ax=axes[0,0])
-df2.plot(ax=axes[0,1])
+files = glob('test*.csv')
+
+for file in files:
+  name = file.split('test*.csv')[0]
+  df = pd.read_csv(file, header=0, parse_dates=True,infer_datetime_format=True,delimiter=',')
+
+  x,y = df['DateTime'],df['Final price']
+
+  fig, ax=plt.subplots(figsize=(7,4))
+
+  ax.plot(x,y)
+
+  plt.tight_layout()
+  plt.savefig(name+'.png', dpi=300, bbox='tight')
 
 plt.title('Skyrim Pricing')
 plt.show()
