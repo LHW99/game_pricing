@@ -64,12 +64,13 @@ for file in files:
   df = pd.read_csv(file, header=0, parse_dates=True,infer_datetime_format=True,delimiter=',')
 
   x,y = df['DateTime'],df['Final price']
-
+  # makes a figure with subplots
   fig, ax=plt.subplots(figsize=(7,4))
 
   ax.plot(x,y)
 
   plt.tight_layout()
+  # saves the figures as a png file
   plt.savefig(name+'.png', dpi=300, bbox='tight')
 
 plt.title('Skyrim Pricing')
