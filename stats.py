@@ -1,11 +1,10 @@
 from tkinter import *
 from PIL import ImageTk, Image
+from tkinter import messagebox
 
 root = Tk()
 root.title("Game Price Stats")
-root.geometry('600x600')
-
-dat = ""
+root.geometry('300x150')
 
 # selections for dropdown
 options = [
@@ -22,22 +21,18 @@ clicked.set(options[0])
 drop = OptionMenu(root, clicked, *options)
 drop.pack()
 
-global lb
-lb = Label(root, text='').pack()
-
 def select():
+  top=Toplevel()
+  top.title('second window')
+  top.geometry('300x300')
   if clicked.get() == '1':
-    lb.destroy()
-    lb = Label(root, text='test1').pack()
+    lb = Label(top, text='test1').pack()
   elif clicked.get() == '2':
-    lb.destroy()
-    lb = Label(root, text='test2').pack()
+    lb = Label(top, text='test2').pack()
   elif clicked.get() == '3':
-    lb.destroy()
-    lb = Label(root, text='test3').pack()
+    lb = Label(top, text='test3').pack()
   elif clicked.get() == '4':
-    lb.destroy()
-    lb = Label(root, text='test4').pack()
+    lb = Label(top, text='test4').pack()
 
 
 # button to execute
