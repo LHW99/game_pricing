@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
+from tkinter import filedialog
 
 root = Tk()
 root.title("Game Price Stats")
@@ -21,6 +22,12 @@ clicked.set(options[0])
 drop = OptionMenu(root, clicked, *options)
 drop.pack()
 
+def open():
+  root.filename = filedialog.askopenfilename(
+    initialdir='c:/',
+    title='Select a file',
+    filetypes=('all files', '*.*'))
+
 def select():
   top=Toplevel()
   top.title('second window')
@@ -36,7 +43,11 @@ def select():
 
 
 # button to execute
-btn=Button(root, text="click here", command=select)
-btn.pack()
+ex_btn=Button(root, text="execute", command=select)
+ex_btn.pack()
+
+# button to find file
+op_btn=Button(root, text="open file", command=open)
+op_btn.pack()
 
 root.mainloop()
