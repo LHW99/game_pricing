@@ -22,12 +22,14 @@ clicked.set(options[0])
 drop = OptionMenu(root, clicked, *options)
 drop.pack()
 
+# command to find a file
 def open():
-  root.filename = filedialog.askopenfilename(
-    initialdir='c:/',
-    title='Select a file',
-    filetypes=('all files', '*.*'))
+  root.filename = filedialog.askopenfilename(initialdir='/',
+  title='Select a file',
+  filetypes=[("all files", "*.*")])
+  print (root.filename)
 
+# command to select how to manipulate csv
 def select():
   top=Toplevel()
   top.title('second window')
@@ -41,8 +43,7 @@ def select():
   elif clicked.get() == '4':
     lb = Label(top, text='test4').pack()
 
-
-# button to execute
+# button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
 ex_btn.pack()
 
