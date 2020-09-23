@@ -2,6 +2,9 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
 from tkinter import filedialog
+import pandas as pd
+import matplotlib.pyplot as plt
+from numpy import *
 
 root = Tk()
 root.title("Game Price Stats")
@@ -9,7 +12,7 @@ root.geometry('300x150')
 
 # selections for dropdown
 options = [
-  '1',
+  'Graph',
   '2',
   '3',
   '4'
@@ -26,16 +29,28 @@ drop.pack()
 def open():
   root.filename = filedialog.askopenfilename(initialdir='/',
   title='Select a file',
-  filetypes=[("all files", "*.*")])
-  print (root.filename)
+  filetypes=[("csv files", "*.csv")])
+  
+  global df
+  df = pd.read_csv(root.filename,
+  header=0,
+  parse_dates=True,
+  infer_datetime_format=True,
+  delimiter=',')
+
+# graph
+def graph():
+  plt.plot(df)
+  plt.title('test title')
+  plt.show()
 
 # command to select how to manipulate csv
 def select():
   top=Toplevel()
   top.title('second window')
   top.geometry('300x300')
-  if clicked.get() == '1':
-    lb = Label(top, text='test1').pack()
+  if clicked.get() == 'Graph':
+    lb = Label(top, text=graph()).pack()
   elif clicked.get() == '2':
     lb = Label(top, text='test2').pack()
   elif clicked.get() == '3':
