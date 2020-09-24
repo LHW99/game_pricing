@@ -40,22 +40,28 @@ def open():
 
 # graph
 def graph():
-  plt.plot(df)
-  plt.title('test title')
+  x,y = df['DateTime'],df['Final price']
+  plt.plot(x,y)
+  plt.title('Price over Time')
+  plt.xticks(rotation=65)
   plt.show()
 
 # command to select how to manipulate csv
 def select():
   top=Toplevel()
-  top.title('second window')
-  top.geometry('300x300')
   if clicked.get() == 'Graph':
-    lb = Label(top, text=graph()).pack()
+    graph().pack
   elif clicked.get() == '2':
+    top.title('second window')
+    top.geometry('300x300')
     lb = Label(top, text='test2').pack()
   elif clicked.get() == '3':
+    top.title('second window')
+    top.geometry('300x300')
     lb = Label(top, text='test3').pack()
   elif clicked.get() == '4':
+    top.title('second window')
+    top.geometry('300x300')
     lb = Label(top, text='test4').pack()
 
 # button to execute from dropdown
