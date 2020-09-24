@@ -3,6 +3,7 @@ group = [
   'testing test',
   'going go'
 ]
+
 def teee():
   for line in group:
     line.split(' ',1)[0]
