@@ -4,6 +4,7 @@ from tkinter import messagebox
 from tkinter import filedialog
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from numpy import *
 
 root = Tk()
@@ -27,7 +28,7 @@ drop.pack()
 
 # command to find a file
 def open():
-  root.filename = filedialog.askopenfilename(initialdir='/',
+  root.filename = filedialog.askopenfilename(initialdir='/home/haiduk/python/game_price',
   title='Select a file',
   filetypes=[("csv files", "*.csv")])
   
@@ -38,12 +39,24 @@ def open():
   infer_datetime_format=True,
   delimiter=',')
 
+  # clears existing file if selected, and shows selected file
+  lb_file.pack_forget()
+  lb_file = Label(root, text="Selected File: " + root.filename)
+  lb_file.pack()
+
 # graph
 def graph():
   x,y = df['DateTime'],df['Final price']
   plt.plot(x,y)
+
+  # labels & title
   plt.title('Price over Time')
   plt.xticks(rotation=65)
+  plt.xlabel("Date")
+  plt.ylabel("Price")
+
+  # change formatting to remove times on x-axis
+  plt.xlabel.set_major_formatter(mdates.DateFormatter("%Y-%m"))
   plt.show()
 
 # command to select how to manipulate csv
@@ -71,5 +84,10 @@ ex_btn.pack()
 # button to find file
 op_btn=Button(root, text="open file", command=open)
 op_btn.pack()
+
+# label for selected file
+global lb_file
+lb_file = Label(root, text="Selected File: ")
+lb_file.pack()
 
 root.mainloop()
