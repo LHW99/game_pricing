@@ -5,7 +5,12 @@ from tkinter import filedialog
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.dates import DateFormatter
 from numpy import *
+
+# handle date time conversions between pandas and matplotlib
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 
 root = Tk()
 root.title("Game Price Stats")
@@ -26,12 +31,17 @@ clicked.set(options[0])
 drop = OptionMenu(root, clicked, *options)
 drop.pack()
 
+# label for selected file
+lb_file = Label(root, text="Selected File: ")
+lb_file.pack()
+
 # command to find a file
 def open():
   root.filename = filedialog.askopenfilename(initialdir='/home/haiduk/python/game_price',
   title='Select a file',
   filetypes=[("csv files", "*.csv")])
   
+  # csv reader
   global df
   df = pd.read_csv(root.filename,
   header=0,
@@ -39,31 +49,41 @@ def open():
   infer_datetime_format=True,
   delimiter=',')
 
-  # clears existing file if selected, and shows selected file
+  # clears existing file label if selected, and shows selected file
+  global lb_file
   lb_file.pack_forget()
   lb_file = Label(root, text="Selected File: " + root.filename)
   lb_file.pack()
 
 # graph
 def graph():
-  x,y = df['DateTime'],df['Final price']
-  plt.plot(x,y)
+  # create figure
+  fig, ax = plt.subplots(figsize=(8, 8))
 
-  # labels & title
-  plt.title('Price over Time')
-  plt.xticks(rotation=65)
-  plt.xlabel("Date")
-  plt.ylabel("Price")
+  # convert date/time to matplotlib readable format
+  df['DateTime'] = pd.to_datetime(df['DateTime'])
+  df['mdate'] = [mdates.date2num(d) for d in df['DateTime']]
 
-  # change formatting to remove times on x-axis
-  plt.xlabel.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+  # x and y values for graph
+  ax.bar(df['mdate'], df['Final price'])
+
+  # labels
+  ax.set(xlabel="Date", ylabel="Price", title = "Price over Time")
+
+  # clean date format
+  date_form = DateFormatter("%Y-%m-%d")
+  ax.xaxis.set_major_formatter(date_form)
+
+  # rotate x-axis labels
+  plt.xticks(rotation = 65)
+
   plt.show()
 
 # command to select how to manipulate csv
 def select():
   top=Toplevel()
   if clicked.get() == 'Graph':
-    graph().pack
+    graph().pack()
   elif clicked.get() == '2':
     top.title('second window')
     top.geometry('300x300')
@@ -85,9 +105,6 @@ ex_btn.pack()
 op_btn=Button(root, text="open file", command=open)
 op_btn.pack()
 
-# label for selected file
-global lb_file
-lb_file = Label(root, text="Selected File: ")
-lb_file.pack()
+
 
 root.mainloop()
