@@ -65,7 +65,7 @@ def graph():
   df['mdate'] = [mdates.date2num(d) for d in df['DateTime']]
 
   # x and y values for graph
-  ax.bar(df['mdate'], df['Final price'])
+  ax.plot(df['mdate'], df['Final price'])
 
   # labels
   ax.set(xlabel="Date", ylabel="Price", title = "Price over Time")
@@ -79,15 +79,25 @@ def graph():
 
   plt.show()
 
+# command to find regular price of game
+def r_price():
+  reg_price = 0.0
+  for line in df['Final price']
+
+# command to find lowest sale price of game
+def l_price ():
+  low_prices = 0.0
+  for line in df['Final price']
+
 # command to select how to manipulate csv
 def select():
   top=Toplevel()
   if clicked.get() == 'Graph':
     graph().pack()
-  elif clicked.get() == '2':
-    top.title('second window')
+  elif clicked.get() == 'Regular/Sales Prices':
+    top.title('Regular/Sales Prices')
     top.geometry('300x300')
-    lb = Label(top, text='test2').pack()
+    lb = Label(top, text='place holder').pack()
   elif clicked.get() == '3':
     top.title('second window')
     top.geometry('300x300')
