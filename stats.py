@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
 from numpy import *
+import datetime
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # handle date time conversions between pandas and matplotlib
 from pandas.plotting import register_matplotlib_converters
@@ -97,15 +100,20 @@ def l_price():
 
 # command to find the latest date in the csv file
 def latest_date():
-  last_date = str(df['DateTime'].iloc[-1])
-  last_date2 = last_date.split(' ',-1)[0]
+  last_date = df['DateTime'].iloc[-1]
+  date_time_obj = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
+  last_date2 = date_time_obj.date()
   return last_date2
 
+# calculate the year before the latest date
 def year_before():
+  last_year = latest_date() - relativedelta(years=1)
+  return last_year
 
-
+# calculate the month before the latest date
 def month_before():
-
+  last_month = latest_date() - relativedelta(months=1)
+  return last_month
 
 # command to select how to manipulate csv
 def select():
@@ -133,7 +141,7 @@ def select():
   elif clicked.get() == '4':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text='test4').pack()
+    lb = Label(top, text=str(month_before())).pack()
 
 # button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
