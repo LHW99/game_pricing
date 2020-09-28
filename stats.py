@@ -64,8 +64,8 @@ def graph():
   fig, ax = plt.subplots(figsize=(8, 8))
 
   # convert date/time to matplotlib readable format
-  df['DateTime'] = pd.to_datetime(df['DateTime'])
-  df['mdate'] = [mdates.date2num(d) for d in df['DateTime']]
+  altered_dates = pd.to_datetime(df['DateTime'])
+  df['mdate'] = [mdates.date2num(d) for d in altered_dates]
 
   # x and y values for graph
   ax.plot(df['mdate'], df['Final price'])
@@ -107,31 +107,33 @@ def latest_date():
 
 # calculate the year before the latest date
 def year_before():
-  sales = 0
   last_year = latest_date() - relativedelta(years=1)
   return last_year
-  """
-  reg_price = r_price()
 
-  # make a new data frame??
-  for line in df['DateTime']
-    if datetime.strptime(line, '%Y-%m-%d %H:%M:%S').date() > last_year:
-      sales+=1
-
-  return sales
-  """
 # calculate the month before the latest date
 def month_before():
   last_month = latest_date() - relativedelta(months=1)
   return last_month
 
-def new_df():
+def new_dfy():
   last_year = pd.to_datetime(year_before())
   reg_price = r_price()
-  df['DateTime'] = pd.to_datetime(df.DateTime)
+  filtered_year = pd.to_datetime(df.DateTime)
 
-  ndf = df[(df['DateTime'] > last_year) & (df['Final price'] < reg_price)]
-  return ndf
+  ndf = df[(filtered_year > last_year) & (df['Final price'] < reg_price)]
+  
+  sales_y = ndf.count()
+
+  #return ndf
+  return "There were " + str(sales_y) + " sales in the past year."
+
+def new_dfm():
+  last_month = pd.to_datetime(month_before())
+  reg_price = r_price()
+  filtered_month = pd.to_datetime(df.DateTime)
+
+  mdf = df[(filtered_month > last_month) & (df['Final price'] < reg_price)]
+  return mdf
 
 # command to select how to manipulate csv
 def select():
@@ -155,11 +157,11 @@ def select():
   elif clicked.get() == '3':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text= str(year_before())).pack()
+    lb = Label(top, text= str(new_dfy())).pack()
   elif clicked.get() == '4':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text=str(new_df())).pack()
+    lb = Label(top, text=str(new_dfm())).pack()
 
 # button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
