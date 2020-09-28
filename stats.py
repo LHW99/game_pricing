@@ -107,8 +107,15 @@ def latest_date():
 
 # calculate the year before the latest date
 def year_before():
+  sales = 0
   last_year = latest_date() - relativedelta(years=1)
-  return last_year
+  reg_price = r_price()
+
+  for line in df['DateTime']
+    if datetime.strptime(line, '%Y-%m-%d %H:%M:%S').date() > last_year:
+      sales+=1
+
+  return sales
 
 # calculate the month before the latest date
 def month_before():
@@ -137,11 +144,11 @@ def select():
   elif clicked.get() == '3':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text= str(latest_date())).pack()
+    lb = Label(top, text= str(year_before())).pack()
   elif clicked.get() == '4':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text=str(month_before())).pack()
+    lb = Label(top, text=str(latest_date())).pack()
 
 # button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
