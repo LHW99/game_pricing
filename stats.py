@@ -19,7 +19,7 @@ root.geometry('300x150')
 # selections for dropdown
 options = [
   'Graph',
-  '2',
+  'Regular/Sales Prices',
   '3',
   '4'
 ]
@@ -82,12 +82,18 @@ def graph():
 # command to find regular price of game
 def r_price():
   reg_price = 0.0
-  for line in df['Final price']
+  for line in df['Final price']:
+    if line > reg_price:
+      reg_price = line
+  return reg_price
 
 # command to find lowest sale price of game
 def l_price ():
-  low_prices = 0.0
-  for line in df['Final price']
+  low_price = 99.99
+  for line in df['Final price']:
+    if line < low_price:
+      low_price = line
+  return low_price
 
 # command to select how to manipulate csv
 def select():
@@ -97,7 +103,13 @@ def select():
   elif clicked.get() == 'Regular/Sales Prices':
     top.title('Regular/Sales Prices')
     top.geometry('300x300')
-    lb = Label(top, text='place holder').pack()
+    lb = Label(top, text='Regular Price: '
+     + str(r_price()) 
+     + '\nLowest Price: ' 
+     + str(l_price())
+     + '\nLargest Discount: '
+     + str(int(l_price() / r_price() * 100))
+     + '%').pack()
   elif clicked.get() == '3':
     top.title('second window')
     top.geometry('300x300')
