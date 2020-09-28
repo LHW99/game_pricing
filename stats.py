@@ -32,11 +32,11 @@ clicked.set(options[0])
 
 # a dropdown box
 drop = OptionMenu(root, clicked, *options)
-drop.pack()
+drop.grid(column=1,row=1)
 
 # label for selected file
 lb_file = Label(root, text="Selected File: ")
-lb_file.pack()
+lb_file.grid(column=1,row=0)
 
 # command to find a file
 def open():
@@ -56,7 +56,7 @@ def open():
   global lb_file
   lb_file.pack_forget()
   lb_file = Label(root, text="Selected File: " + root.filename)
-  lb_file.pack()
+  lb_file.grid(column=1,row=0)
 
 # graph
 def graph():
@@ -169,10 +169,10 @@ def select():
 
 # button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
-ex_btn.pack()
+ex_btn.grid(column=0,row=1)
 
 # button to find file
 op_btn=Button(root, text="open file", command=open)
-op_btn.pack()
+op_btn.grid(column=0,row=0)
 
 root.mainloop()
