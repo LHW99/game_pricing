@@ -88,17 +88,33 @@ def r_price():
   return reg_price
 
 # command to find lowest sale price of game
-def l_price ():
+def l_price():
   low_price = 99.99
   for line in df['Final price']:
     if line < low_price:
       low_price = line
   return low_price
 
+# command to find the latest date in the csv file
+def latest_date():
+  last_date = str(df['DateTime'].iloc[-1])
+  last_date2 = last_date.split(' ',-1)[0]
+  return last_date2
+
+def year_before():
+
+
+def month_before():
+
+
 # command to select how to manipulate csv
 def select():
   top=Toplevel()
-  if clicked.get() == 'Graph':
+  # if user has not selected a csv file
+  if lb_file.cget("text") == "Selected File: ":
+    lb = Label(top, text="Please select a csv file").pack(pady=10, padx=10)
+  # if user selects options
+  elif clicked.get() == 'Graph':
     graph().pack()
   elif clicked.get() == 'Regular/Sales Prices':
     top.title('Regular/Sales Prices')
@@ -113,7 +129,7 @@ def select():
   elif clicked.get() == '3':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text='test3').pack()
+    lb = Label(top, text= str(latest_date())).pack()
   elif clicked.get() == '4':
     top.title('second window')
     top.geometry('300x300')
@@ -126,7 +142,5 @@ ex_btn.pack()
 # button to find file
 op_btn=Button(root, text="open file", command=open)
 op_btn.pack()
-
-
 
 root.mainloop()
