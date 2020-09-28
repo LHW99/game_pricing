@@ -23,8 +23,8 @@ root.geometry('300x150')
 options = [
   'Graph',
   'Regular/Sales Prices',
-  '3',
-  '4'
+  'No. of sales in past year',
+  'No. of sales in past month'
 ]
 
 clicked = StringVar()
@@ -115,6 +115,7 @@ def month_before():
   last_month = latest_date() - relativedelta(months=1)
   return last_month
 
+# calculates number of sales in past year from latest date
 def new_dfy():
   last_year = pd.to_datetime(year_before())
   reg_price = r_price()
@@ -122,18 +123,21 @@ def new_dfy():
 
   ndf = df[(filtered_year > last_year) & (df['Final price'] < reg_price)]
   
-  sales_y = ndf.count()
+  sales_y = ndf['Final price'].count()
 
-  #return ndf
-  return "There were " + str(sales_y) + " sales in the past year."
+  return "No. of sales in past year: " + str(sales_y)
 
+# calculates number of sales in past month from latest date
 def new_dfm():
   last_month = pd.to_datetime(month_before())
   reg_price = r_price()
   filtered_month = pd.to_datetime(df.DateTime)
 
   mdf = df[(filtered_month > last_month) & (df['Final price'] < reg_price)]
-  return mdf
+  
+  sales_m = mdf['Final price'].count()
+
+  return "No. of sales in past month: " + str(sales_m)
 
 # command to select how to manipulate csv
 def select():
@@ -154,11 +158,11 @@ def select():
      + '\nLargest Discount: '
      + str(int(l_price() / r_price() * 100))
      + '%').pack()
-  elif clicked.get() == '3':
+  elif clicked.get() == 'No. of sales in past year':
     top.title('second window')
     top.geometry('300x300')
     lb = Label(top, text= str(new_dfy())).pack()
-  elif clicked.get() == '4':
+  elif clicked.get() == 'No. of sales in past month':
     top.title('second window')
     top.geometry('300x300')
     lb = Label(top, text=str(new_dfm())).pack()
