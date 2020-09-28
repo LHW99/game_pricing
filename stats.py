@@ -109,18 +109,29 @@ def latest_date():
 def year_before():
   sales = 0
   last_year = latest_date() - relativedelta(years=1)
+  return last_year
+  """
   reg_price = r_price()
 
+  # make a new data frame??
   for line in df['DateTime']
     if datetime.strptime(line, '%Y-%m-%d %H:%M:%S').date() > last_year:
       sales+=1
 
   return sales
-
+  """
 # calculate the month before the latest date
 def month_before():
   last_month = latest_date() - relativedelta(months=1)
   return last_month
+
+def new_df():
+  last_year = pd.to_datetime(year_before())
+  reg_price = r_price()
+  df['DateTime'] = pd.to_datetime(df.DateTime)
+
+  ndf = df[(df['DateTime'] > last_year) & (df['Final price'] < reg_price)]
+  return ndf
 
 # command to select how to manipulate csv
 def select():
@@ -148,7 +159,7 @@ def select():
   elif clicked.get() == '4':
     top.title('second window')
     top.geometry('300x300')
-    lb = Label(top, text=str(latest_date())).pack()
+    lb = Label(top, text=str(new_df())).pack()
 
 # button to execute from dropdown
 ex_btn=Button(root, text="execute", command=select)
