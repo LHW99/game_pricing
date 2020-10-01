@@ -10,6 +10,7 @@ from numpy import *
 import datetime
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import csv
 
 # handle date time conversions between pandas and matplotlib
 from pandas.plotting import register_matplotlib_converters
@@ -33,15 +34,37 @@ clicked.set(options[0])
 # a dropdown box
 drop = OptionMenu(root, clicked, *options)
 drop.config(width=22, anchor='w', justify=LEFT)
-drop.grid(column=1,row=1, padx=(15,0), stick='w')
+drop.grid(column=1,row=1, padx=(15,0), sticky='w')
 
 # label for selected file
-lb_file = Label(root, text="File: ", justify=LEFT)
-lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0))
+lb_file = Label(root, text="Dummy data loaded. Give it a try!", justify=LEFT, width=22, anchor='w')
+lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0), sticky='w')
+
+# dummy data example
+with open('dummy.csv', 'w') as csvfile:
+  filewriter = csv.writer(csvfile, delimiter=',')
+  filewriter.writerow(['DateTime', 'Final price'])
+  filewriter.writerow(["2016-10-28 05:36:28",'49.99'])
+  filewriter.writerow(["2016-12-22 20:04:13",'37.49'])
+  filewriter.writerow(["2017-01-02 18:33:13",'49.99'])
+  filewriter.writerow(["2017-02-21 18:10:36",'37.49'])
+  filewriter.writerow(["2017-02-28 18:10:25",'49.99'])
+  filewriter.writerow(["2017-04-29 06:23:08",'24.49'])
+  filewriter.writerow(["2017-05-05 20:10:13",'49.99'])
+  filewriter.writerow(["2017-06-22 22:07:33",'24.99'])
+  filewriter.writerow(["2017-07-05 20:02:36",'49.99'])
+  filewriter.writerow(["2017-08-22 17:06:01",'24.99'])
+  filewriter.writerow(["2017-08-29 17:11:26",'49.99'])
+
+df = pd.read_csv('dummy.csv',
+  header=0,
+  parse_dates=True,
+  infer_datetime_format=True,
+  delimiter=',')
 
 # command to find a file
 def open():
-  root.filename = filedialog.askopenfilename(initialdir='/home/haiduk/python/game_price',
+  root.filename = filedialog.askopenfilename(initialdir='/',
   title='Select a file',
   filetypes=[("csv files", "*.csv")])
   
@@ -56,8 +79,8 @@ def open():
   # clears existing file label if selected, and shows selected file
   global lb_file
   lb_file.pack_forget()
-  lb_file = Label(root, text="Selected File: " + root.filename, anchor='w')
-  lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0))
+  lb_file = Label(root, text="File: " + root.filename, justify=LEFT, anchor='w')
+  lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0), sticky='w')
 
 # graph
 def graph():
@@ -151,7 +174,7 @@ def select():
     graph().pack()
   elif clicked.get() == 'Regular/Sales Prices':
     top.title('Regular/Sales Prices')
-    top.geometry('300x300')
+    top.geometry('300x70')
     lb = Label(top, text='Regular Price: '
      + str(r_price()) 
      + '\nLowest Price: ' 
@@ -161,11 +184,11 @@ def select():
      + '%').pack()
   elif clicked.get() == 'No. of sales in past year':
     top.title('second window')
-    top.geometry('300x300')
+    top.geometry('300x70')
     lb = Label(top, text= str(new_dfy())).pack()
   elif clicked.get() == 'No. of sales in past month':
     top.title('second window')
-    top.geometry('300x300')
+    top.geometry('300x70')
     lb = Label(top, text=str(new_dfm())).pack()
 
 # button to execute from dropdown
