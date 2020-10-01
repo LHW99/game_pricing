@@ -17,7 +17,7 @@ register_matplotlib_converters()
 
 root = Tk()
 root.title("Game Price Stats")
-root.geometry('300x150')
+root.geometry('600x120')
 
 # selections for dropdown
 options = [
@@ -32,11 +32,12 @@ clicked.set(options[0])
 
 # a dropdown box
 drop = OptionMenu(root, clicked, *options)
-drop.grid(column=1,row=1)
+drop.config(width=22, anchor='w', justify=LEFT)
+drop.grid(column=1,row=1, padx=(15,0), stick='w')
 
 # label for selected file
-lb_file = Label(root, text="Selected File: ")
-lb_file.grid(column=1,row=0)
+lb_file = Label(root, text="File: ", justify=LEFT)
+lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0))
 
 # command to find a file
 def open():
@@ -55,8 +56,8 @@ def open():
   # clears existing file label if selected, and shows selected file
   global lb_file
   lb_file.pack_forget()
-  lb_file = Label(root, text="Selected File: " + root.filename)
-  lb_file.grid(column=1,row=0)
+  lb_file = Label(root, text="Selected File: " + root.filename, anchor='w')
+  lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0))
 
 # graph
 def graph():
@@ -168,11 +169,11 @@ def select():
     lb = Label(top, text=str(new_dfm())).pack()
 
 # button to execute from dropdown
-ex_btn=Button(root, text="execute", command=select)
-ex_btn.grid(column=0,row=1)
+ex_btn=Button(root, text="Execute", command=select, width=15)
+ex_btn.grid(column=0,row=1, padx=(30,10))
 
 # button to find file
-op_btn=Button(root, text="open file", command=open)
-op_btn.grid(column=0,row=0)
+op_btn=Button(root, text="Open File", command=open, width=15)
+op_btn.grid(column=0,row=0, padx=(30,10), pady=(30,10))
 
 root.mainloop()
