@@ -18,14 +18,14 @@ register_matplotlib_converters()
 
 root = Tk()
 root.title("Game Price Stats")
-root.geometry('600x120')
+root.geometry('450x150')
 
 # selections for dropdown
 options = [
   'Graph',
   'Regular/Sales Prices',
-  'No. of sales in past year',
-  'No. of sales in past month'
+  'No. of Sales in Past Year',
+  'No. of Sales in Past Month'
 ]
 
 clicked = StringVar()
@@ -37,25 +37,10 @@ drop.config(width=22, anchor='w', justify=LEFT)
 drop.grid(column=1,row=1, padx=(15,0), sticky='w')
 
 # label for selected file
-lb_file = Label(root, text="Dummy data loaded. Give it a try!", justify=LEFT, width=22, anchor='w')
+lb_file = Label(root, text="Dummy data loaded.\nGive it a try!", justify=LEFT, width=22, anchor='w')
 lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0), sticky='w')
 
 # dummy data example
-with open('dummy.csv', 'w') as csvfile:
-  filewriter = csv.writer(csvfile, delimiter=',')
-  filewriter.writerow(['DateTime', 'Final price'])
-  filewriter.writerow(["2016-10-28 05:36:28",'49.99'])
-  filewriter.writerow(["2016-12-22 20:04:13",'37.49'])
-  filewriter.writerow(["2017-01-02 18:33:13",'49.99'])
-  filewriter.writerow(["2017-02-21 18:10:36",'37.49'])
-  filewriter.writerow(["2017-02-28 18:10:25",'49.99'])
-  filewriter.writerow(["2017-04-29 06:23:08",'24.49'])
-  filewriter.writerow(["2017-05-05 20:10:13",'49.99'])
-  filewriter.writerow(["2017-06-22 22:07:33",'24.99'])
-  filewriter.writerow(["2017-07-05 20:02:36",'49.99'])
-  filewriter.writerow(["2017-08-22 17:06:01",'24.99'])
-  filewriter.writerow(["2017-08-29 17:11:26",'49.99'])
-
 df = pd.read_csv('dummy.csv',
   header=0,
   parse_dates=True,
@@ -79,7 +64,7 @@ def open():
   # clears existing file label if selected, and shows selected file
   global lb_file
   lb_file.pack_forget()
-  lb_file = Label(root, text="File: " + root.filename, justify=LEFT, anchor='w')
+  lb_file = Label(root, text="File:\n" + root.filename, justify=LEFT, anchor='w')
   lb_file.grid(column=1,row=0, pady=(35,15), padx=(15,0), sticky='w')
 
 # graph
@@ -149,7 +134,7 @@ def new_dfy():
   
   sales_y = ndf['Final price'].count()
 
-  return "No. of sales in past year: " + str(sales_y)
+  return "No. of sales in year\nprior to " + str(latest_date()) + ": " + str(sales_y)
 
 # calculates number of sales in past month from latest date
 def new_dfm():
@@ -161,7 +146,7 @@ def new_dfm():
   
   sales_m = mdf['Final price'].count()
 
-  return "No. of sales in past month: " + str(sales_m)
+  return "No. of sales in month\nprior to " + str(latest_date()) + ": " + str(sales_m)
 
 # command to select how to manipulate csv
 def select():
@@ -182,12 +167,12 @@ def select():
      + '\nLargest Discount: '
      + str(int(l_price() / r_price() * 100))
      + '%').pack()
-  elif clicked.get() == 'No. of sales in past year':
-    top.title('second window')
+  elif clicked.get() == 'No. of Sales in Past Year':
+    top.title('Sales in Past Year')
     top.geometry('300x70')
     lb = Label(top, text= str(new_dfy())).pack()
-  elif clicked.get() == 'No. of sales in past month':
-    top.title('second window')
+  elif clicked.get() == 'No. of Sales in Past Month':
+    top.title('Sales in Past Month')
     top.geometry('300x70')
     lb = Label(top, text=str(new_dfm())).pack()
 
